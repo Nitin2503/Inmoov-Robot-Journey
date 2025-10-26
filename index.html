@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My InMoov Robot Journey — A Dream Built Layer by Layer | Nitin Ajvilkar</title>
+  <meta name="description" content="Nitin Ajvilkar's instructive and inspiring story of building an open‑source InMoov humanoid robot—without an engineering background. Lessons, tips, and motivation for beginners."/>
+  <meta name="author" content="Nitin Ajvilkar" />
+  <meta property="og:title" content="My InMoov Robot Journey — A Dream Built Layer by Layer" />
+  <meta property="og:description" content="An instructive, step‑by‑step, and inspiring blog about building an InMoov robot from scratch." />
+  <meta property="og:type" content="article" />
+  <meta property="og:locale" content="en_IN" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b1020;/* deep indigo */
+      --bg-soft:#121734;
+      --card:#0f1530;
+      --text:#e6e9f5;
+      --muted:#aab1d6;
+      --accent:#7c5cff;/* violet */
+      --accent-2:#25c2a0;/* teal */
+      --edge:rgba(255,255,255,.08);
+      --shadow:0 10px 30px rgba(0,0,0,.4);
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:linear-gradient(180deg,var(--bg),#070b18 60%);color:var(--text);font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial,sans-serif;}
+    a{color:inherit;text-decoration:none}
+    .container{width:min(1100px,92%);margin-inline:auto}
+    header.site{position:sticky;top:0;z-index:50;background:rgba(11,16,32,.6);backdrop-filter:blur(10px);border-bottom:1px solid var(--edge)}
+    header .inner{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+    .brand{display:flex;align-items:center;gap:.6rem;font-weight:700}
+    .brand .logo{width:28px;height:28px;border-radius:10px;background:conic-gradient(from 200deg at 50% 50%,var(--accent),var(--accent-2),#66d1ff,var(--accent));box-shadow:0 0 0 2px #ffffff10}
+    nav a{padding:8px 12px;border-radius:10px}
+    nav a:hover{background:#ffffff0f}
+
+    /* Hero */
+    .hero{position:relative;isolation:isolate;padding:72px 0 28px;overflow:hidden}
+    .hero .bg-orb{position:absolute;inset:-30% -10% auto auto;min-width:700px;min-height:700px;background:radial-gradient(closest-side at 60% 40%,#7c5cff40,#0000 60%),radial-gradient(closest-side at 40% 60%,#25c2a040,#0000 60%);filter:blur(40px);opacity:.8;z-index:-1}
+    .kicker{color:var(--accent-2);text-transform:uppercase;font-size:.85rem;letter-spacing:.18em;font-weight:700}
+    h1.title{font-size:clamp(2.1rem,4.2vw,3.4rem);line-height:1.1;margin:10px 0 14px}
+    .subtitle{font-size:clamp(1rem,2.2vw,1.15rem);color:var(--muted);max-width:50ch}
+    .chips{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0}
+    .chip{display:inline-flex;align-items:center;gap:.5rem;padding:8px 12px;border:1px solid var(--edge);background:#ffffff05;border-radius:999px;font-size:.9rem}
+    .cta{display:flex;gap:12px;margin:18px 0 8px}
+    .btn{display:inline-flex;align-items:center;gap:.6rem;padding:12px 16px;border-radius:14px;border:1px solid var(--edge);font-weight:600;background:#ffffff08;box-shadow:var(--shadow);transition:.2s}
+    .btn:hover{transform:translateY(-1px);background:#ffffff12}
+    .btn.primary{background:linear-gradient(135deg,var(--accent),#5b7cff);border-color:#0000}
+    .btn.ghost{background:#ffffff05}
+
+    /* Article */
+    .article{padding:36px 0 80px}
+    .grid{display:grid;grid-template-columns:1.2fr .8fr;gap:26px}
+    @media (max-width:950px){.grid{grid-template-columns:1fr}}
+
+    article{background:linear-gradient(180deg,var(--card),#0b1128);border:1px solid var(--edge);border-radius:20px;padding:28px}
+    article h2{font-size:1.5rem;margin:20px 0 10px}
+    article h3{font-size:1.1rem;margin:18px 0 8px;color:#dbe2ff}
+    p{color:#dee2fb;opacity:.95;line-height:1.7}
+    .lead{font-size:1.05rem;color:#e8ebff}
+    .quote{border-left:4px solid var(--accent);padding:10px 14px;margin:12px 0;background:#ffffff07;border-radius:10px}
+    .tip{display:flex;gap:12px;padding:14px;border:1px dashed #7c5cff80;background:#1a2042;border-radius:16px;margin:14px 0}
+    .tip strong{color:#fff}
+    .list{margin:10px 0 0 1.1rem}
+
+    /* Sidebar */
+    aside{display:flex;flex-direction:column;gap:16px}
+    .card{background:linear-gradient(180deg,#0e1636,#0a0f25);border:1px solid var(--edge);border-radius:18px;padding:18px}
+    .card h4{margin:0 0 10px;font-size:1.05rem}
+    .stat{display:flex;align-items:center;justify-content:space-between;background:#ffffff06;border:1px solid var(--edge);padding:12px;border-radius:14px}
+    .stat small{color:var(--muted)}
+
+    /* Footer */
+    footer{border-top:1px solid var(--edge);background:#0a0f22;padding:28px 0;margin-top:40px}
+    .author{display:flex;gap:14px;align-items:center}
+    .avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--accent-2),var(--accent));box-shadow:0 0 0 2px #ffffff15}
+
+    /* Back to top */
+    #toTop{position:fixed;right:18px;bottom:18px;opacity:0;pointer-events:none;transition:.25s;}
+    #toTop.show{opacity:1;pointer-events:auto}
+  </style>
+</head>
+<body>
+  <header class="site">
+    <div class="container inner">
+      <a href="#home" class="brand" aria-label="Homepage">
+        <span class="logo" aria-hidden="true"></span>
+        <span>InMoov Journey</span>
+      </a>
+      <nav>
+        <a href="#story">Story</a>
+        <a href="#lessons">Lessons</a>
+        <a href="#tips">Beginner Tips</a>
+        <a href="#about">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="home" class="hero">
+    <div class="bg-orb" aria-hidden="true"></div>
+    <div class="container">
+      <p class="kicker">Open‑Source • DIY Robotics • InMoov</p>
+      <h1 class="title">My InMoov Robot Journey — <span style="color:var(--accent)">A Dream Built Layer by Layer</span></h1>
+      <p class="subtitle">I’m <strong>Nitin Ajvilkar</strong>. In August 2024, with no electronics background and a heart full of curiosity, I began building an open‑source InMoov humanoid robot inspired by the brilliant French sculptor <strong>Gaël Langevin</strong>. This is my instructive and inspiring story.</p>
+
+      <div class="chips" aria-label="highlights">
+        <span class="chip">Started: Aug 2024</span>
+        <span class="chip">Mechanical build: ~60% complete</span>
+        <span class="chip">Electronics: Learning in progress</span>
+        <span class="chip">Self‑funded from salary</span>
+        <span class="chip">Goal: Inspire kids & beginners</span>
+      </div>
+
+      <div class="cta">
+        <a class="btn primary" href="#story" aria-label="Read the story">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 19a2 2 0 0 0 2 2h13" stroke="#fff" stroke-width="1.6"/><path d="M6 3h11a2 2 0 0 1 2 2v16" stroke="#fff" stroke-width="1.6"/><path d="M6 3a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11" stroke="#fff" stroke-width="1.6"/></svg>
+          Read the Story
+        </a>
+        <a class="btn ghost" href="#tips" aria-label="Jump to beginner tips">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2v6M12 16v6M2 12h6M16 12h6M5 5l4 4M15 15l4 4M19 5l-4 4M9 15l-4 4" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round"/></svg>
+          Beginner Tips
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <section id="story" class="article">
+    <div class="container grid">
+      <article>
+        <p class="lead">They say every great creation begins with a simple thought: <em>“Can I really do this?”</em> I asked myself that in 2024—and pressed print anyway. What followed is a lesson‑filled journey fueled by open‑source, persistence, and penny‑by‑penny progress.</p>
+
+        <h2>Lesson 1: Inspiration Is the Spark</h2>
+        <p>The InMoov project—created by French sculptor and designer <strong>Gaël Langevin</strong>—changed how I see creativity. His vision to make a life‑sized, 3D‑printed humanoid robot accessible to anyone lit the first flame for me. I thought, <em>“If he can share it with the world, I can try to build it.”</em></p>
+
+        <h2>Lesson 2: Start With What You Have</h2>
+        <p>I didn’t wait for perfect conditions. I bought a 3D printer—funded <strong>penny by penny</strong> from my salary—and began printing. Part by part, hands and joints emerged. Within months, about <strong>60% of the mechanical build</strong> was complete and a quiet silhouette stood on my desk: full of potential.</p>
+        <div class="tip">
+          <strong>Tip:</strong> You don’t need to know everything to begin. You learn most while building.
+        </div>
+
+        <h2>Lesson 3: Every Challenge Is a Classroom</h2>
+        <p>Electronics humbled me. Wires, power, servo control—it all felt like a new language. I burnt a few parts, restarted many times, and kept going. I’m learning <strong>Arduino</strong>, <strong>ESP32</strong>, and how to drive <strong>servo motors</strong> safely and smoothly.</p>
+        <div class="quote">
+          <strong>Remember:</strong> Failure is feedback. Each mistake pushes you one layer closer to success.
+        </div>
+
+        <h2>Lesson 4: Passion Beats Perfection</h2>
+        <p>With limited funds and no formal engineering background, progress is slower—but it’s steady. Every tiny movement of a servo feels like a festival at home. The project is <strong>40% incomplete electronically</strong>—and 100% alive in spirit.</p>
+
+        <h2>Lesson 5: Inspire Before You Finish</h2>
+        <p>My biggest motivation is my children. I want them to see that curiosity is power—that you can build bold things without waiting for permission, labels, or degrees. The goal isn’t just a robot; it’s a mindset.</p>
+
+        <h2>Lesson 6: Open‑Source, Open Mind</h2>
+        <p>InMoov thrives because it’s open. Langevin’s generosity built a global community of makers. Sharing knowledge multiplies possibilities—and that’s the heart of my build too.</p>
+
+        <h2>Lesson 7: Keep Building, Keep Growing</h2>
+        <p>The robot is a work in progress—and so am I. Each print and wire is a line in my story of patience, focus, and learning by doing. If you have a dream that feels impossible, start anyway. Begin small. Keep moving.</p>
+
+        <div class="quote"><em>“Dreams grow when you feed them with effort. Knowledge comes when you take the first step. Passion makes the impossible possible.”</em></div>
+      </article>
+
+      <aside>
+        <div class="card" id="lessons">
+          <h4>Quick Stats</h4>
+          <div class="stat"><span>Start Date</span><small>Aug 2024</small></div>
+          <div class="stat"><span>Mechanical Build</span><small>~60% complete</small></div>
+          <div class="stat"><span>Electronics</span><small>Learning in progress</small></div>
+          <div class="stat"><span>Funding</span><small>Self‑funded from salary</small></div>
+          <div class="stat"><span>Goal</span><small>Inspire kids & beginners</small></div>
+        </div>
+
+        <div class="card" id="tips">
+          <h4>Beginner Tips (What I’m Learning)</h4>
+          <ul class="list">
+            <li><strong>Start cheap, print smart:</strong> Begin with PLA and moderate infill to save cost and time.</li>
+            <li><strong>Label everything:</strong> Bag parts per section (hand, forearm, head) to avoid confusion later.</li>
+            <li><strong>Power matters:</strong> Use a stable power supply sized for your servos; avoid brownouts.</li>
+            <li><strong>One joint at a time:</strong> Test each servo with a simple Arduino sketch before final assembly.</li>
+            <li><strong>Keep notes:</strong> A small logbook of settings, part revisions, and mistakes saves hours.</li>
+            <li><strong>Join the community:</strong> Forums & videos can save you from common pitfalls fast.</li>
+          </ul>
+        </div>
+
+        <div class="card" id="about">
+          <h4>About the Author</h4>
+          <div class="author">
+            <span class="avatar" aria-hidden="true"></span>
+            <div>
+              <strong>Nitin Ajvilkar</strong><br>
+              <small>DIY Robotics Enthusiast</small>
+            </div>
+          </div>
+          <p style="margin-top:10px;color:var(--muted)">I’m learning robotics without an engineering background to inspire my children and fellow beginners. Thanks to the open‑source InMoov project by Gaël Langevin, I discovered the joy of building and sharing.</p>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>© <span id="year"></span> Nitin Ajvilkar • Built with curiosity • Open‑source spirit</p>
+    </div>
+  </footer>
+
+  <button id="toTop" class="btn" aria-label="Back to top">↑ Top</button>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "My InMoov Robot Journey — A Dream Built Layer by Layer",
+    "author": {"@type":"Person","name":"Nitin Ajvilkar"},
+    "about": ["InMoov","DIY Robotics","Open Source"],
+    "datePublished": "2024-08-15",
+    "dateModified": "2025-10-26",
+    "inLanguage": "en",
+    "description": "An instructive and inspiring story of building an open-source InMoov humanoid robot from scratch.",
+    "mainEntityOfPage": {"@type":"WebPage","@id":"https://example.com/inmoov-journey"}
+  }
+  </script>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    const toTop = document.getElementById('toTop');
+    const onScroll = () => {
+      if (window.scrollY > 400) toTop.classList.add('show');
+      else toTop.classList.remove('show');
+    };
+    window.addEventListener('scroll', onScroll);
+    toTop.addEventListener('click', () => window.scrollTo({top: 0, behavior: 'smooth'}));
+  </script>
+</body>
+</html>
